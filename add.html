@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Add GitHub Link</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            margin: 0;
+            background: linear-gradient(to right, #0b0028, #2e012a);
+            color: #333;
+        }
+        form {
+            display: flex;
+            flex-direction: column;
+            background-color: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            width: 300px;
+        }
+        label, input {
+            margin-bottom: 10px;
+        }
+        button {
+            padding: 10px;
+            background-color: #000205;
+            color: white;
+            border: none;
+            cursor: pointer;
+            border-radius: 5px;
+            transition: background-color 0.3s, transform 0.3s;
+        }
+        button:hover {
+            background-color: #02080e;
+            transform: scale(1.05);
+        }
+    </style>
+</head>
+<body>
+    <h1>Add GitHub Link</h1>
+    <form id="addLinkForm">
+        <label for="topic">Topic:</label>
+        <input type="text" id="topic" required>
+        
+        <label for="linkText">Link Text:</label>
+        <input type="text" id="linkText" required>
+        
+        <label for="linkUrl">Link URL:</label>
+        <input type="url" id="linkUrl" required>
+        
+        <label for="linkOwner">Link Owner:</label>
+        <input type="text" id="linkOwner" required>
+        
+        <button type="submit">Add Link</button>
+    </form>
+
+    <script>
+        document.getElementById('addLinkForm').addEventListener('submit', function(event) {
+            event.preventDefault();
+            
+            const topic = document.getElementById('topic').value;
+            const text = document.getElementById('linkText').value;
+            const url = document.getElementById('linkUrl').value;
+            const owner = document.getElementById('linkOwner').value;
+
+
+            let topics = JSON.parse(localStorage.getItem('topics')) || [];
+            if (!topics.includes(topic)) {
+                topics.push(topic);
+                localStorage.setItem('topics', JSON.stringify(topics));
+            }
+
+            let links = JSON.parse(localStorage.getItem(topic)) || [];
+            links.push({ text, url, owner });
+            localStorage.setItem(topic, JSON.stringify(links));
+
+            window.close();
+        });
+    </script>
+</body>
+</html>

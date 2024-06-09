@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GitHub Links</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background: linear-gradient(to right, #0b0028, #2e012a);
+            color: #333;
+        }
+        h1 {
+            text-align: center;
+            padding: 20px;
+            background-color: #a355e7;
+            color: white;
+            margin: 0;
+        }
+        #linkList {
+            margin: 20px;
+            padding: 20px;
+            background-color: rgb(255, 255, 255);
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+        #linkList h2 {
+            border-bottom: 2px solid #007bff;
+            padding-bottom: 10px;
+        }
+        #linkList ul {
+            list-style-type: none;
+            padding-left: 0;
+        }
+        #linkList li {
+            margin: 10px 0;
+            padding: 10px;
+            background-color: #f9f9f9;
+            border-radius: 5px;
+            transition: background-color 0.3s, transform 0.3s;
+        }
+        #linkList li:hover {
+            background-color: #cceeff;
+            transform: scale(1.05);
+        }
+         #linkList li:hover {
+            background-color: #cceeff;
+            transform: scale(1.05);
+        }
+        .floating-button {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background-color: #020a12;
+            color: white;
+            border: none;
+            border-radius: 50%;
+            width: 60px;
+            height: 60px;
+            font-size: 24px;
+            cursor: pointer;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            transition: background-color 0.3s, transform 0.3s;
+        }
+        .floating-button:hover {
+            background-color: #010a13;
+            transform: scale(1.1);
+        }
+    </style>
+</head>
+<body>
+    <h1>GitHub Links</h1>
+    <div id="linkList"></div>
+    <button class="floating-button" onclick="openAddForm()">+</button>
+
+    <script>
+        // Function to get topics from localStorage
+        function getTopics() {
+            return JSON.parse(localStorage.getItem('topics')) || [];
+        }
+
+        // Function to load links from localStorage and display them
+        function loadLinks() {
+            const linkListDiv = document.getElementById('linkList');
+            linkListDiv.innerHTML = ''; // Clear existing content
+
+            const topics = getTopics();
+            topics.forEach(topic => {
+                const topicDiv = document.createElement('div');
+                const h2 = document.createElement('h2');
+                h2.textContent = topic;
+                topicDiv.appendChild(h2);
+
+                const ul = document.createElement('ul');
+                ul.id = topic;
+
+                const storedLinks = JSON.parse(localStorage.getItem(topic)) || [];
+                storedLinks.forEach(link => {
+                    const li = document.createElement('li');
+                    const a = document.createElement('a');
+                    a.href = link.url;
+                    a.textContent = link.text;
+                    a.target = "_blank";
+                    const ownerText = document.createTextNode(` (Owner: ${link.owner})`);
+
+                    li.appendChild(a);
+                    li.appendChild(ownerText);
+                    li.appendChild(mailText);
+
+                    ul.appendChild(li);
+                });
+
+                topicDiv.appendChild(ul);
+                linkListDiv.appendChild(topicDiv);
+            });
+        }
+
+        // Function to open the add link form
+        function openAddForm() {
+            window.open('add.html', '_blank', 'width=400,height=600');
+        }
+
+        window.onload = loadLinks;
+    </script>
+</body>
+</html>
+
+
+
